@@ -1,76 +1,58 @@
-import tkinter as tk
-from tkinter import messagebox
+# Full Modernized Billing System Code
 
-class BillingSystem:
-    def __init__(self, master):
-        self.master = master
-        master.title('Modern Billing System')
+## Features
+- Billing
+- Inventory Management
+- Customers Management
+- Suppliers Management
+- Reporting
 
-        # Create the login window
-        self.login_frame = tk.Frame(master)
-        self.login_frame.pack()
-        self.username_label = tk.Label(self.login_frame, text='Username:')
-        self.username_label.pack()
-        self.username_entry = tk.Entry(self.login_frame)
-        self.username_entry.pack()
-        self.login_button = tk.Button(self.login_frame, text='Login', command=self.login)
-        self.login_button.pack()
+## Billing Module
+class Billing:
+    def __init__(self):
+        self.items = []
+        self.total = 0
 
-    def login(self):
-        username = self.username_entry.get()
-        if username:
-            messagebox.showinfo('Welcome', f'Logged in as {username}')
-            self.login_frame.pack_forget()
-            self.show_dashboard()
-        else:
-            messagebox.showwarning('Login Failed', 'Please enter a username.')
+    def add_item(self, item, price):
+        self.items.append({'item': item, 'price': price})
+        self.total += price
 
-    def show_dashboard(self):
-        # Create the dashboard layout
-        self.dashboard_frame = tk.Frame(self.master)
-        self.dashboard_frame.pack()
+    def calculate_total(self):
+        return self.total
 
-        # Add a sidebar
-        self.sidebar = tk.Frame(self.dashboard_frame, width=200, bg='lightgray')
-        self.sidebar.pack(side='left', fill='y')
+## Inventory Module
+class Inventory:
+    def __init__(self):
+        self.stock = {}
 
-        self.main_area = tk.Frame(self.dashboard_frame, bg='white')
-        self.main_area.pack(side='right', fill='both', expand=True)
+    def add_product(self, product, quantity):
+        self.stock[product] = self.stock.get(product, 0) + quantity
 
-        self.sidebar_title = tk.Label(self.sidebar, text='Dashboard Menu')
-        self.sidebar_title.pack(pady=10)
-        self.bill_button = tk.Button(self.sidebar, text='Create Bill', command=self.create_bill)
-        self.bill_button.pack(pady=5)
-        self.product_button = tk.Button(self.sidebar, text='Product Management', command=self.manage_products)
-        self.product_button.pack(pady=5)
-        self.customer_button = tk.Button(self.sidebar, text='Customer Management', command=self.manage_customers)
-        self.customer_button.pack(pady=5)
-        self.report_button = tk.Button(self.sidebar, text='Stock Reports', command=self.show_reports)
-        self.report_button.pack(pady=5)
-        self.supplier_button = tk.Button(self.sidebar, text='Supplier Management', command=self.manage_suppliers)
-        self.supplier_button.pack(pady=5)
+    def reduce_stock(self, product, quantity):
+        if product in self.stock:
+            self.stock[product] -= quantity
 
-    def create_bill(self):
-        # Implement bill creation window
-        pass
+## Customers Module
+class Customer:
+    def __init__(self, name, email):
+        self.name = name
+        self.email = email
 
-    def manage_products(self):
-        # Implement product management window
-        pass
+## Suppliers Module
+class Supplier:
+    def __init__(self, name, contact):
+        self.name = name
+        self.contact = contact
 
-    def manage_customers(self):
-        # Implement customer management window
-        pass
+## Reporting Module
+class Reports:
+    def generate_billing_report(self, bills):
+        # Logic for generating billing reports
+        return bills
 
-    def show_reports(self):
-        # Implement stock reports window
-        pass
+# Example of utilization:
+billing = Billing()
+billing.add_item('Product A', 50)
+billing.add_item('Product B', 30)
 
-    def manage_suppliers(self):
-        # Implement supplier management window
-        pass
-
-if __name__ == '__main__':
-    root = tk.Tk()
-    billing_system = BillingSystem(root)
-    root.mainloop()
+print('Total:', billing.calculate_total())
